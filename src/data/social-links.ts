@@ -7,16 +7,11 @@ export const SOCIAL_LINKS = [
   {
     title: "Github",
     icon: "/github.svg",
-    link: "https://github.com/phongna07",
-  },
-  {
-    title: "Facebook",
-    icon: "/facebook.svg",
-    link: "https://www.facebook.com/just.call.me.nap/",
+    link: "https://github.com/phongna07/",
   },
   {
     title: "LinkedIn",
     icon: "/linkedin.svg",
-    link: "https://www.linkedin.com/in/phong-nguyen-anh",
+    link: "https://www.linkedin.com/in/phongna07/",
   },
 ];
