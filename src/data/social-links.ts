@@ -7,7 +7,7 @@ export const SOCIAL_LINKS = [
   {
     title: "Github",
     icon: "/github.svg",
-    link: "https://github.com/napthedev",
+    link: "https://github.com/phongna07",
   },
   {
     title: "Facebook",
