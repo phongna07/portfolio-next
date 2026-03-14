@@ -10,10 +10,10 @@ import {
   ReactNode,
   RefObject,
 } from "react";
-import { MotionValue, useMotionValue, useReducedMotion } from "framer-motion";
+import { ReactLenis, useLenis } from "lenis/react";
 
 interface ScrollContextValue {
-  scrollY: MotionValue<number>;
+  scrollY: number;
   viewportHeight: number;
   registerElement: (
     _id: string,
@@ -37,37 +37,35 @@ interface ScrollProviderProps {
 /**
  * ScrollProvider - A centralized scroll management system for parallax effects.
  *
- * Instead of each Parallax component creating its own scroll listener via useScroll,
- * this provider creates a single scroll listener that all Parallax components share.
+ * Uses Lenis for smooth scrolling and provides a single scroll context
+ * that all Parallax components share.
  *
  * Benefits:
+ * - Smooth, buttery scrolling via Lenis
  * - Single scroll event listener instead of N listeners
- * - Single RAF loop for scroll updates
- * - Reduced memory overhead from fewer MotionValue subscriptions
+ * - Reduced memory overhead
  * - Better performance on scroll-heavy pages
  */
 export function ScrollProvider({ children }: ScrollProviderProps) {
-  const scrollY = useMotionValue(0);
+  const scrollYRef = useRef(0);
+  const [scrollY, setScrollY] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const elementsRef = useRef<Map<string, ElementEntry>>(new Map());
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotionRef = useRef(false);
 
-  // Update scroll position using RAF for smooth performance
+  // Check prefers-reduced-motion
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    setViewportHeight(window.innerHeight);
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotionRef.current = mql.matches;
 
-    const updateScroll = () => {
-      const currentScrollY = window.scrollY;
-      scrollY.set(currentScrollY);
+    const handler = (e: MediaQueryListEvent) => {
+      prefersReducedMotionRef.current = e.matches;
     };
+    mql.addEventListener("change", handler);
 
-    // Update scroll on scroll events
-    window.addEventListener("scroll", updateScroll, { passive: true });
-
-    // Initial update
-    updateScroll();
+    setViewportHeight(window.innerHeight);
 
     // Handle resize
     const handleResize = () => {
@@ -83,7 +81,6 @@ export function ScrollProvider({ children }: ScrollProviderProps) {
       });
     };
 
-    // Debounced resize handler
     let resizeTimeout: ReturnType<typeof setTimeout>;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
@@ -93,16 +90,21 @@ export function ScrollProvider({ children }: ScrollProviderProps) {
     window.addEventListener("resize", debouncedResize, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", updateScroll);
+      mql.removeEventListener("change", handler);
       window.removeEventListener("resize", debouncedResize);
       clearTimeout(resizeTimeout);
     };
-  }, [scrollY]);
+  }, []);
+
+  // Subscribe to Lenis scroll events
+  useLenis((lenis) => {
+    scrollYRef.current = lenis.scroll;
+    setScrollY(lenis.scroll);
+  });
 
   // Register an element for parallax tracking
   const registerElement = useCallback(
     (id: string, ref: RefObject<HTMLElement | null>) => {
-      // Calculate initial position after a short delay to ensure element is mounted
       const calculatePosition = () => {
         if (ref.current) {
           const rect = ref.current.getBoundingClientRect();
@@ -114,13 +116,10 @@ export function ScrollProvider({ children }: ScrollProviderProps) {
         }
       };
 
-      // Use RAF to ensure DOM is ready
       requestAnimationFrame(calculatePosition);
 
-      // Also recalculate after images/fonts might have loaded
       const timeoutId = setTimeout(calculatePosition, 500);
 
-      // Return cleanup function
       return () => {
         elementsRef.current.delete(id);
         clearTimeout(timeoutId);
@@ -132,44 +131,42 @@ export function ScrollProvider({ children }: ScrollProviderProps) {
   // Get the scroll progress for a specific element (0 = entering viewport, 1 = leaving viewport)
   const getElementProgress = useCallback(
     (id: string): number => {
-      if (prefersReducedMotion) return 0.5; // No parallax effect
+      if (prefersReducedMotionRef.current) return 0.5;
 
       const entry = elementsRef.current.get(id);
       if (!entry || viewportHeight === 0) return 0.5;
 
-      const currentScrollY = scrollY.get();
+      const currentScrollY = scrollYRef.current;
 
-      // Calculate when element enters and leaves viewport
-      // Element enters when its top reaches bottom of viewport
-      // Element leaves when its bottom reaches top of viewport
       const elementTop = entry.top;
       const elementHeight = entry.height;
 
-      const startScroll = elementTop - viewportHeight; // Element starts entering
-      const endScroll = elementTop + elementHeight; // Element finishes leaving
+      const startScroll = elementTop - viewportHeight;
+      const endScroll = elementTop + elementHeight;
 
       const totalDistance = endScroll - startScroll;
       if (totalDistance === 0) return 0.5;
 
       const progress = (currentScrollY - startScroll) / totalDistance;
 
-      // Clamp between 0 and 1
       return Math.max(0, Math.min(1, progress));
     },
-    [scrollY, viewportHeight, prefersReducedMotion],
+    [viewportHeight],
   );
 
   return (
-    <ScrollContext.Provider
-      value={{
-        scrollY,
-        viewportHeight,
-        registerElement,
-        getElementProgress,
-      }}
-    >
-      {children}
-    </ScrollContext.Provider>
+    <ReactLenis root options={{ lerp: 0.1, duration: 1.2 }}>
+      <ScrollContext.Provider
+        value={{
+          scrollY,
+          viewportHeight,
+          registerElement,
+          getElementProgress,
+        }}
+      >
+        {children}
+      </ScrollContext.Provider>
+    </ReactLenis>
   );
 }
 

@@ -1,53 +1,44 @@
 "use client";
 
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect, useRef } from "react";
 
 import { BiChevronsDown } from "react-icons/bi";
 import Canvas from "./Canvas";
 import Parallax from "./Parallax";
 import { characters } from "../data/animation-characters";
-import { m, useReducedMotion } from "framer-motion";
+import { useLenis } from "lenis/react";
 
 const Intro: FC = () => {
-  const reduceMotion = useReducedMotion();
-  const pathDraw = reduceMotion
-    ? {
-        initial: { pathLength: 1 },
-        animate: { pathLength: 1 },
-        transition: { duration: 0 },
+  const pathRefs = useRef<(SVGPathElement | null)[]>([]);
+  const lenisRef = useRef<ReturnType<typeof useLenis> | null>(null);
+
+  // After mount, set stroke-dasharray for each path based on actual path length
+  useEffect(() => {
+    pathRefs.current.forEach((path) => {
+      if (path) {
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = `${length}`;
+        path.style.strokeDashoffset = `${length}`;
       }
-    : {
-        initial: { pathLength: 0 },
-        animate: { pathLength: 1 },
-        transition: { duration: 1 },
-      };
-  const fillDraw = reduceMotion
-    ? {
-        initial: { fill: "#ffffff" },
-        animate: { fill: "#ffffff" },
-        transition: { duration: 0 },
+    });
+    // Force reflow so the browser registers the initial dash values
+    // before the animation class is added
+    void document.body.offsetHeight;
+    pathRefs.current.forEach((path) => {
+      if (path) {
+        path.classList.add("anim-path-draw");
       }
-    : {
-        initial: { fill: "#ffffff00" },
-        animate: { fill: "#ffffff" },
-        transition: { duration: 0.6 },
-      };
-  const fadeIn = reduceMotion
-    ? {
-        initial: { opacity: 1 },
-        animate: { opacity: 1 },
-        transition: { duration: 0 },
-      }
-    : {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.4 },
-      };
+    });
+  }, []);
+
+  const lenis = useLenis();
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const target = document.getElementById("who");
-    if (target) {
+    if (target && lenis) {
+      lenis.scrollTo(target, { duration: 1.2 });
+    } else if (target) {
       target.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -64,57 +55,60 @@ const Intro: FC = () => {
       >
         {characters.map((character, index) => (
           <Fragment key={character}>
-            <m.path
-              initial={pathDraw.initial}
-              animate={pathDraw.animate}
-              transition={{
-                ...pathDraw.transition,
-                delay: reduceMotion ? 0 : index / 10,
+            {/* Stroke draw path */}
+            <path
+              ref={(el) => {
+                pathRefs.current[index] = el;
               }}
+              className=""
+              style={
+                {
+                  "--anim-delay": `${index * 0.1}s`,
+                  strokeDasharray: 1000,
+                  strokeDashoffset: 1000,
+                } as React.CSSProperties
+              }
               d={character}
               fill="none"
               stroke="#FFF"
               strokeWidth="3"
-            ></m.path>
-            <m.path
-              initial={fillDraw.initial}
-              animate={fillDraw.animate}
-              transition={{
-                ...fillDraw.transition,
-                delay: reduceMotion ? 0 : 0.7 + index / 10,
-              }}
+            />
+            {/* Fill path */}
+            <path
+              className="anim-fill-in"
+              style={
+                {
+                  "--anim-delay": `${0.7 + index * 0.1}s`,
+                } as React.CSSProperties
+              }
               fill="none"
               d={character}
-            ></m.path>
+            />
           </Fragment>
         ))}
       </svg>
 
       <Parallax speed={1}>
-        <m.p
-          initial={fadeIn.initial}
-          animate={fadeIn.animate}
-          transition={{ ...fadeIn.transition, delay: reduceMotion ? 0 : 1.4 }}
-          className="text-3xl text-center z-[1] overflow-hidden"
+        <p
+          className="text-3xl text-center z-[1] overflow-hidden anim-fade-in"
+          style={{ "--anim-delay": "1.4s" } as React.CSSProperties}
         >
           {`Just another tech enthusiast`}
-        </m.p>
+        </p>
       </Parallax>
 
       <Parallax
         speed={2}
         className="absolute left-[calc(50%-23px)] bottom-[10vh]"
       >
-        <m.a
-          initial={fadeIn.initial}
-          animate={fadeIn.animate}
-          transition={{ ...fadeIn.transition, delay: reduceMotion ? 0 : 1.4 }}
-          className="cursor-pointer block"
+        <a
+          className="cursor-pointer block anim-fade-in"
+          style={{ "--anim-delay": "1.4s" } as React.CSSProperties}
           href="#who"
           onClick={handleScrollTo}
         >
           <BiChevronsDown className="animate-bounce" size={56} />
-        </m.a>
+        </a>
       </Parallax>
     </div>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import { CANVAS_IMAGES } from "../data/canvas-images";
-import { m, useReducedMotion } from "framer-motion";
 
 const jitteredGridPositions = (
   width: number,
@@ -24,7 +23,6 @@ const jitteredGridPositions = (
     const col = i % cols;
     const row = Math.floor(i / cols);
 
-    // Center of the cell + random jitter (up to 40% of cell size)
     const jitterX = (Math.random() - 0.5) * cellWidth * 0.8;
     const jitterY = (Math.random() - 0.5) * cellHeight * 0.8;
 
@@ -34,13 +32,18 @@ const jitteredGridPositions = (
     });
   }
 
-  // Shuffle to randomize which image goes where
   return positions.sort(() => Math.random() - 0.5);
 };
 
 const Canvas: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const reduceMotion = useReducedMotion();
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -50,7 +53,7 @@ const Canvas: FC = () => {
     const reduceMotionQuery = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const prefersReducedMotion = reduceMotionQuery.matches;
+    const reducedMotion = reduceMotionQuery.matches;
 
     const images = CANVAS_IMAGES.map((source) => {
       const image = document.createElement("img");
@@ -134,7 +137,6 @@ const Canvas: FC = () => {
       const maxIcons = innerWidth < 768 ? 12 : images.length;
       const sampledImages = images.slice(0, maxIcons);
 
-      // Generate jittered grid positions for even distribution
       const positions = jitteredGridPositions(
         innerWidth,
         innerHeight,
@@ -179,7 +181,7 @@ const Canvas: FC = () => {
     };
 
     setup();
-    if (!prefersReducedMotion) {
+    if (!reducedMotion) {
       rafId = requestAnimationFrame(animate);
     } else {
       ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -210,15 +212,9 @@ const Canvas: FC = () => {
   }, []);
 
   return (
-    <m.canvas
-      initial={{ opacity: reduceMotion ? 0.6 : 0 }}
-      animate={{ opacity: 0.6 }}
-      transition={{
-        duration: reduceMotion ? 0 : 0.4,
-        delay: reduceMotion ? 0 : 1.4,
-      }}
+    <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className={`absolute inset-0 w-full h-full anim-canvas-fade ${prefersReducedMotion ? "anim-instant" : ""}`}
     />
   );
 };

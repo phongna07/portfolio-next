@@ -2,8 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -18,4 +35,97 @@ body {
 
 input {
   @apply bg-dark border border-gray-500 rounded outline-none px-3 py-2 focus:border-gray-700 focus:shadow-[0_0_0_4px_#027DFF80] transition duration-300;
+}
+
+/* ============================================
+   Intro Animations (replaces framer-motion)
+   ============================================ */
+
+/* SVG path draw animation */
+@keyframes pathDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.anim-path-draw {
+  animation: pathDraw 1s ease forwards;
+  animation-delay: var(--anim-delay, 0s);
+}
+
+/* SVG fill animation */
+@keyframes fillIn {
+  from {
+    fill: rgba(255, 255, 255, 0);
+  }
+  to {
+    fill: rgba(255, 255, 255, 1);
+  }
+}
+
+.anim-fill-in {
+  fill: rgba(255, 255, 255, 0);
+  animation: fillIn 0.6s ease forwards;
+  animation-delay: var(--anim-delay, 0s);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
+  animation-delay: var(--anim-delay, 0s);
+}
+
+/* Canvas fade-in (delayed, to 0.6 opacity) */
+@keyframes canvasFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
+.anim-canvas-fade {
+  opacity: 0;
+  animation: canvasFadeIn 0.4s ease forwards;
+  animation-delay: 1.4s;
+}
+
+/* Instant mode for reduced motion */
+.anim-canvas-fade.anim-instant {
+  opacity: 0.6;
+  animation: none;
+}
+
+/* Reduced motion: disable all intro animations */
+@media (prefers-reduced-motion: reduce) {
+  .anim-path-draw {
+    animation: none;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .anim-fill-in {
+    animation: none;
+    fill: rgba(255, 255, 255, 1);
+  }
+
+  .anim-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  .anim-canvas-fade {
+    animation: none;
+    opacity: 0.6;
+  }
 }

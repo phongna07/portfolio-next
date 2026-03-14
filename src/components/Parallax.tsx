@@ -1,12 +1,7 @@
 "use client";
 
-import { ReactNode, useRef, useEffect, useId } from "react";
-import {
-  m,
-  useReducedMotion,
-  useTransform,
-  useMotionValue,
-} from "framer-motion";
+import { ReactNode, useRef, useEffect, useId, useCallback } from "react";
+import { useLenis } from "lenis/react";
 import { useOptionalScrollContext } from "../lib/scroll-context";
 
 interface ParallaxProps {
@@ -16,11 +11,6 @@ interface ParallaxProps {
    * - Positive values: element moves up as you scroll down (appears to move faster)
    * - Negative values: element moves down as you scroll down (appears to move slower/lag)
    * - Typical range: -2 to 2
-   *
-   * Maps to Locomotive Scroll's data-scroll-speed behavior:
-   * - speed="2" → element moves up faster
-   * - speed="0.5" → element moves up slower
-   * - speed="-0.6" → element moves down
    */
   speed?: number;
   /**
@@ -42,12 +32,11 @@ interface ParallaxProps {
 }
 
 /**
- * Parallax component that creates scroll-linked animations using Framer Motion.
- * Replaces Locomotive Scroll's data-scroll and data-scroll-speed attributes.
+ * Parallax component that creates scroll-linked animations using Lenis.
+ * Replaces the previous Framer Motion implementation.
  *
- * This optimized version uses a shared ScrollProvider context instead of creating
- * individual useScroll hooks for each instance, significantly reducing the number
- * of scroll listeners and improving performance.
+ * Uses a shared ScrollProvider context and subscribes to Lenis scroll events
+ * to apply GPU-accelerated transforms directly via refs.
  *
  * Respects user's prefers-reduced-motion setting for accessibility.
  */
@@ -60,57 +49,68 @@ const Parallax = ({
 }: ParallaxProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const uniqueId = useId();
-  const prefersReducedMotion = useReducedMotion();
   const scrollContext = useOptionalScrollContext();
+  const prefersReducedMotionRef = useRef(false);
 
-  // Create a motion value that we'll update based on scroll progress
-  const progress = useMotionValue(0.5);
-
-  // Calculate the pixel offset based on speed
-  const range = baseRange * speed;
-
-  // Transform progress (0-1) to pixel offset
-  const transform = useTransform(progress, [0, 1], [range, -range]);
-
-  // Register with scroll context and update progress on scroll
+  // Check reduced motion preference
   useEffect(() => {
-    if (!scrollContext || prefersReducedMotion) return;
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotionRef.current = mql.matches;
+    const handler = (e: MediaQueryListEvent) => {
+      prefersReducedMotionRef.current = e.matches;
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
-    const { scrollY, registerElement, getElementProgress } = scrollContext;
-
-    // Register this element
+  // Register with scroll context
+  useEffect(() => {
+    if (!scrollContext) return;
+    const { registerElement } = scrollContext;
     const unregister = registerElement(uniqueId, ref);
-
-    // Subscribe to scroll changes and update progress
-    const unsubscribe = scrollY.on("change", () => {
-      const elementProgress = getElementProgress(uniqueId);
-      progress.set(elementProgress);
-    });
-
-    // Set initial progress
-    requestAnimationFrame(() => {
-      const elementProgress = getElementProgress(uniqueId);
-      progress.set(elementProgress);
-    });
-
     return () => {
       unregister();
-      unsubscribe();
     };
-  }, [scrollContext, uniqueId, progress, prefersReducedMotion]);
+  }, [scrollContext, uniqueId]);
 
-  // If user prefers reduced motion or no scroll context, don't apply parallax transforms
-  const style =
-    prefersReducedMotion || !scrollContext
-      ? {}
-      : direction === "vertical"
-        ? { y: transform }
-        : { x: transform };
+  // Calculate and apply transform on each lenis scroll frame
+  const range = baseRange * speed;
+
+  const applyTransform = useCallback(() => {
+    if (!scrollContext || !ref.current || prefersReducedMotionRef.current)
+      return;
+
+    const { getElementProgress } = scrollContext;
+    const progress = getElementProgress(uniqueId);
+
+    // Map progress (0-1) to pixel offset: progress=0 → +range, progress=1 → -range
+    const offset = range - progress * range * 2;
+
+    if (direction === "vertical") {
+      ref.current.style.transform = `translate3d(0, ${offset}px, 0)`;
+    } else {
+      ref.current.style.transform = `translate3d(${offset}px, 0, 0)`;
+    }
+  }, [scrollContext, uniqueId, range, direction]);
+
+  // Subscribe to lenis scroll events
+  useLenis(() => {
+    applyTransform();
+  });
+
+  // Apply initial transform after mount
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      applyTransform();
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [applyTransform]);
 
   return (
-    <m.div ref={ref} style={style} className={className}>
+    <div ref={ref} className={className} style={{ willChange: "transform" }}>
       {children}
-    </m.div>
+    </div>
   );
 };
 
