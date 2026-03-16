@@ -29,6 +29,12 @@ html.lenis body {
   }
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-dark text-gray-100;
 }

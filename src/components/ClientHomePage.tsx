@@ -13,7 +13,7 @@ export default function ClientHomePage() {
     <>
       <Cursor />
 
-      <main>
+      <main className="overflow-x-hidden">
         <Intro />
         <Who />
         <Skills />
