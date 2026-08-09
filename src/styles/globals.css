@@ -1265,46 +1265,9 @@ svg {
 
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(90px, 0.32fr) auto;
-  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(40px, 8vw, 110px);
   align-items: end;
-}
-
-.contact-circuit-rail {
-  position: relative;
-  display: flex;
-  min-width: 90px;
-  align-items: center;
-}
-
-.contact-circuit-rail__node {
-  flex: 0 0 auto;
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--cyan);
-  background: var(--panel-raised);
-  box-shadow: inset 0 0 0 2px var(--panel);
-  transform: rotate(45deg);
-}
-
-.contact-circuit-rail__line {
-  width: 100%;
-  height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--line-strong) 0 7px,
-    transparent 7px 12px
-  );
-}
-
-.contact-circuit-rail__signal {
-  position: absolute;
-  width: 26px;
-  height: 1px;
-  margin-left: 8px;
-  background: linear-gradient(90deg, transparent, var(--signal), transparent);
-  filter: drop-shadow(0 0 4px rgba(98, 246, 181, 0.7));
-  animation: contact-signal 4.2s ease-in-out infinite;
 }
 
 .contact-section__copy {
@@ -1327,10 +1290,35 @@ svg {
 }
 
 .contact-section__links {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   gap: 8px;
   min-width: 280px;
+}
+
+.contact-section__links::before {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), var(--signal), var(--line-strong));
+  content: "";
+  opacity: 0.58;
+}
+
+.contact-section__links::after {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 8px rgba(98, 246, 181, 0.72);
+  content: "";
+  animation: contact-signal 4.2s ease-in-out infinite;
 }
 
 .contact-section__links .button {
@@ -1605,7 +1593,7 @@ svg {
   }
   88%,
   100% {
-    left: calc(100% - 26px);
+    left: calc(100% - 7px);
     opacity: 0;
   }
 }
@@ -1623,15 +1611,6 @@ svg {
 
   .about-section__portrait {
     width: 100%;
-  }
-
-  .contact-circuit-rail {
-    width: min(100%, 440px);
-    min-width: 0;
-  }
-
-  .contact-circuit-rail__signal {
-    display: none;
   }
 
   .contact-section__links {
@@ -1785,6 +1764,10 @@ svg {
     min-width: 0;
   }
 
+  .contact-section__links::after {
+    display: none;
+  }
+
   .contact-section__links .button {
     grid-column: auto;
   }
@@ -1838,7 +1821,7 @@ svg {
   .project-schematic *,
   .skill-schematic *,
   .project-row__image-status::before,
-  .contact-circuit-rail *,
+  .contact-section__links::after,
   .skill-panel::before,
   .button::after {
     animation: none !important;
@@ -1855,7 +1838,7 @@ svg {
 
   .schematic-scan,
   .project-row__image-scan,
-  .contact-circuit-rail__signal {
+  .contact-section__links::after {
     display: none;
   }
 

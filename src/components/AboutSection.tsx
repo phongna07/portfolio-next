@@ -35,7 +35,7 @@ export default function AboutSection() {
                 width={1370}
                 height={1370}
                 priority
-                sizes="(max-width: 900px) min(78vw, 310px), 310px"
+                sizes="(max-width: 900px) 79vw, 310px"
               />
             </figure>
           </HeroCircuitVisual>

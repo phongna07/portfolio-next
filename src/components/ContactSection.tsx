@@ -16,13 +16,6 @@ export default function ContactSection() {
             </p>
           </div>
 
-          <div className="contact-circuit-rail" aria-hidden="true">
-            <span className="contact-circuit-rail__node" />
-            <span className="contact-circuit-rail__line" />
-            <span className="contact-circuit-rail__signal" />
-            <span className="contact-circuit-rail__node" />
-          </div>
-
           <div className="contact-section__links" aria-label="Contact links">
             <a className="button button--signal" href={`mailto:${contact.email}`}>
               Email me
