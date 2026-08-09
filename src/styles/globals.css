@@ -8,7 +8,7 @@
   --panel: #0b1210;
   --panel-raised: #101a16;
   --text: #e7f3ec;
-  --text-muted: #91a79b;
+  --text-muted: #a6b9af;
   --line: #294137;
   --line-strong: #47695a;
   --signal: #62f6b5;
@@ -45,7 +45,8 @@ body {
   background-size: 24px 24px, 24px 24px, 100% 100%;
   color: var(--text);
   font-family: var(--font-sans);
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
 }
 
@@ -110,7 +111,7 @@ svg {
 .section-label {
   margin: 0 0 12px;
   color: var(--signal);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -180,7 +181,7 @@ svg {
   align-items: center;
   gap: 12px;
   color: var(--text);
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 750;
   letter-spacing: 0.08em;
 }
@@ -229,7 +230,7 @@ svg {
 .brand__copy small {
   margin-top: 4px;
   color: var(--text-muted);
-  font-size: 0.52rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -247,7 +248,7 @@ svg {
   align-items: center;
   padding: 0 14px;
   color: var(--text-muted);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 650;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -300,10 +301,10 @@ svg {
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.05em;
-  line-height: 1.1;
+  line-height: 1.25;
   text-transform: uppercase;
   overflow: hidden;
   transition:
@@ -350,7 +351,7 @@ svg {
 .button--small {
   min-height: 40px;
   padding: 8px 13px;
-  font-size: 0.64rem;
+  font-size: 0.75rem;
 }
 
 .button--signal {
@@ -419,7 +420,8 @@ svg {
 .about-section__body p {
   margin: 0;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
 }
 
 .about-section__body p:first-child {
@@ -621,7 +623,7 @@ svg {
   background: rgba(5, 8, 6, 0.88);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.48rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -672,7 +674,8 @@ svg {
 .projects-heading > p:last-child {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .project-list {
@@ -747,7 +750,7 @@ svg {
   background: rgba(5, 8, 6, 0.84);
   color: var(--signal);
   font-family: var(--font-mono);
-  font-size: 0.48rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.08em;
 }
@@ -775,7 +778,7 @@ svg {
     linear-gradient(90deg, rgba(98, 246, 181, 0.025) 1px, transparent 1px);
   background-size: 16px 16px, 48px 48px, 48px 48px;
   color: var(--text-muted);
-  font-size: 0.56rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -858,7 +861,7 @@ svg {
 .project-schematic text {
   fill: currentColor;
   font-family: var(--font-mono);
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -893,7 +896,7 @@ svg {
 
 .schematic-blocks text {
   fill: var(--text-muted);
-  font-size: 6px;
+  font-size: 7px;
 }
 
 .schematic-die {
@@ -986,7 +989,7 @@ svg {
   align-items: center;
   gap: 12px;
   color: var(--copper);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1016,7 +1019,8 @@ svg {
   max-width: 610px;
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.94rem;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .tag-list {
@@ -1033,7 +1037,7 @@ svg {
   border: 1px solid var(--line);
   background: var(--panel);
   color: var(--text-muted);
-  font-size: 0.59rem;
+  font-size: 0.75rem;
   font-weight: 650;
 }
 
@@ -1081,7 +1085,8 @@ svg {
 .section-heading > p:last-child {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .skills-grid {
@@ -1145,14 +1150,14 @@ svg {
 
 .skill-panel__heading > span {
   color: var(--copper);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 750;
 }
 
 .skill-panel h3 {
   margin: 0;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -1172,7 +1177,7 @@ svg {
   border: 1px solid var(--line);
   background: var(--panel-raised);
   color: var(--text-muted);
-  font-size: 0.63rem;
+  font-size: 0.75rem;
   font-weight: 650;
   transition:
     border-color 160ms ease,
@@ -1317,6 +1322,8 @@ svg {
   max-width: 660px;
   margin: 0;
   color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .contact-section__links {
@@ -1340,7 +1347,7 @@ svg {
   border: 1px solid var(--line-strong);
   background: var(--background);
   color: var(--text-muted);
-  font-size: 0.67rem;
+  font-size: 0.75rem;
   font-weight: 700;
   transition:
     border-color 160ms ease,
@@ -1413,7 +1420,7 @@ svg {
   color: var(--text-muted);
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 .error-details pre {
@@ -1423,7 +1430,7 @@ svg {
   border: 1px solid var(--line);
   background: var(--background);
   color: var(--error);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
 }
 
 /* One-shot entrance motion */
@@ -1656,7 +1663,7 @@ svg {
   }
 
   .brand {
-    font-size: 0.7rem;
+    font-size: 0.78rem;
   }
 
   .brand__mark {
@@ -1761,7 +1768,7 @@ svg {
   .site-header .button {
     min-height: 38px;
     padding: 8px 10px;
-    font-size: 0.58rem;
+    font-size: 0.75rem;
   }
 
   .project-links {
@@ -1793,7 +1800,7 @@ svg {
   }
 
   .hero-circuit__readout {
-    font-size: 0.42rem;
+    font-size: 0.75rem;
   }
 }
 
