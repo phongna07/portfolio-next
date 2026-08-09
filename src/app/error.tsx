@@ -18,45 +18,44 @@ export default function Error({
     error.message.includes("fetch") || error.message.includes("network");
 
   return (
-    <div className="flex items-center justify-center min-h-screen flex-col bg-black text-white p-8">
-      <div className="text-center max-w-md">
-        <h1 className="text-2xl font-bold mb-4">Oops! Something went wrong</h1>
+    <div className="state-page">
+      <div className="state-card">
+        <p className="section-label">SYSTEM / ERROR / SIGNAL LOST</p>
+        <h1>Something interrupted the signal.</h1>
 
         {isNetworkError ? (
-          <p className="text-gray-300 mb-6">
-            There seems to be a connection issue. Please check your internet
-            connection and try again.
+          <p>
+            The external connection is unavailable. Check your network and try
+            the signal again.
           </p>
         ) : (
-          <p className="text-gray-300 mb-6">
-            An unexpected error occurred while loading the portfolio.
+          <p>
+            An unexpected interruption occurred while loading the portfolio.
           </p>
         )}
 
-        <div className="space-y-3">
+        <div className="state-card__actions">
           <button
             onClick={() => reset()}
-            className="w-full px-6 py-3 bg-white text-black font-medium rounded-md hover:bg-gray-200 transition-colors"
+            className="button button--signal"
           >
-            Try Again
+            Retry signal
           </button>
 
           <button
             onClick={() => window.location.reload()}
-            className="w-full px-6 py-3 border border-white text-white font-medium rounded-md hover:bg-white hover:text-black transition-colors"
+            className="button button--ghost"
           >
-            Refresh Page
+            Restart system
           </button>
         </div>
 
         {process.env.NODE_ENV === "development" && (
-          <details className="mt-6 text-left">
-            <summary className="cursor-pointer text-sm text-gray-400 hover:text-white">
+          <details className="error-details">
+            <summary>
               Error Details (Development)
             </summary>
-            <pre className="mt-2 p-3 bg-gray-900 rounded text-xs text-red-300 overflow-auto">
-              {error.message}
-            </pre>
+            <pre>{error.message}</pre>
           </details>
         )}
       </div>

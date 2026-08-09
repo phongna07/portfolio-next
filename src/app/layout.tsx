@@ -1,28 +1,35 @@
 import "../styles/globals.css";
 
-import { ScrollProvider } from "../lib/scroll-context";
 import Script from "next/script";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#050806",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ),
-  title: "Phong's Portfolio",
-  description: "Nguyen Anh Phong's Portfolio",
+  title: "Nguyen Anh Phong | Electrical Engineering Portfolio",
+  description:
+    "Selected embedded systems and electrical engineering projects by Nguyen Anh Phong.",
   icons: {
     icon: "/favicon.png",
   },
   openGraph: {
     type: "website",
-    title: "Phong's Portfolio",
-    description: "Nguyen Anh Phong's Portfolio",
+    title: "Nguyen Anh Phong | Electrical Engineering Portfolio",
+    description:
+      "Selected embedded systems and electrical engineering projects by Nguyen Anh Phong.",
     images: ["/avatar.jpg"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Phong's Portfolio",
-    description: "Nguyen Anh Phong's Portfolio",
+    title: "Nguyen Anh Phong | Electrical Engineering Portfolio",
+    description:
+      "Selected embedded systems and electrical engineering projects by Nguyen Anh Phong.",
     images: ["/avatar.jpg"],
   },
 };
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ScrollProvider>{children}</ScrollProvider>
+        {children}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script

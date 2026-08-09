@@ -1,71 +1,46 @@
-# Phong's Portfolio
+# Nguyen Anh Phong — Electrical Engineering Portfolio
 
-Welcome to my personal portfolio website. This project is where I share the work I care about most, experiment with ideas, and keep improving as a developer.
+A compact, about-first portfolio centered on embedded systems, digital hardware,
+FPGA, chips, and Linux systems. The homepage moves from Phong's background into
+selected projects, grouped technical skills, and direct contact channels.
 
-<p align="center">
-  <img alt="Stars" src="https://badgen.net/github/stars/phongna07/portfolio-next">
-  <img alt="Forks" src="https://badgen.net/github/forks/phongna07/portfolio-next">
-  <img alt="Issues" src="https://badgen.net/github/issues/phongna07/portfolio-next">
-  <img alt="Commits" src="https://badgen.net/github/commits/phongna07/portfolio-next">
-</p>
+## Design direction
 
-## Live Experience
+The interface uses a dark engineering-lab visual system with a subtle grid,
+signal colors, technical labels, and compact editorial project rows. Motion is
+limited to a small one-shot fade and slide when content enters the viewport.
+Reduced-motion preferences are fully respected.
 
-Want to see it in action?
+The site has no canvas effects, parallax, custom cursor, smooth-scroll library,
+or continuous animation loops.
 
-**[Visit My Portfolio](https://phongna.is-a.dev/)**
+## Stack
 
-## Technology Stack
+- Next.js 14 App Router and TypeScript
+- React 18
+- Tailwind CSS and a custom global design system
+- Static portfolio data and static generation
+- Next.js image optimization
 
-This portfolio is built with modern tools that make development fast and the experience smooth:
+## Local development
 
-- **Next.js 14** with App Router and TypeScript for a scalable React setup
-- **Tailwind CSS** for responsive and maintainable styling
-- **Framer Motion** for UI animation and transitions
-- **React Locomotive Scroll** for smooth scrolling and parallax effects
-- **Local static data** for fast loading and simple content management
-- **Static Site Generation** for strong performance in production
+```bash
+bun install
+bun run dev
+```
 
-## Getting Started
+Open `http://localhost:3000`.
 
-To run this project locally:
+## Validation
 
-### Quick Setup
+```bash
+bun run lint
+bun run build
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/phongna07/portfolio-next.git
-   cd portfolio-next
-   ```
+## Content model
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser** and go to `http://localhost:3000`
-
-## Available Scripts
-
-- `npm run dev` - Start the development server with hot reload
-- `npm run build` - Create an optimized production build
-- `npm start` - Launch the production server
-- `npm run lint` - Keep your code clean and consistent
-
-## Support
-
-If you found this project useful or interesting, feel free to:
-
-- **Star the repository**
-- **Fork it** and make your own version
-- **Share it** with others
-- **Report issues** so I can keep improving it
-
----
-
-Built by Phong.
+Project copy, statuses, links, grouped technical skills, and contact details live
+in `src/data/portfolio.ts`. Completed projects and future project slots are
+deliberately labeled separately. The page itself follows a fixed About, Projects,
+Skills, and Contact sequence beneath the sticky navigation.
