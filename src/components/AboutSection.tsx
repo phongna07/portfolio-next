@@ -10,7 +10,7 @@ export default function AboutSection() {
         <Reveal className="about-layout">
           <div className="about-section__copy">
             <p className="section-label">About me / Hanoi, VN</p>
-            <h1 id="about-title">Nguyen Anh Phong</h1>
+            <h1 id="about-title">Phong Nguyen</h1>
             <div className="about-section__body">
               <p>
                 My name is Nguyen Anh Phong, an Electrical Engineering student

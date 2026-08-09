@@ -6,13 +6,17 @@ export default function SiteHeader() {
       </a>
       <header className="site-header">
         <div className="site-header__inner">
-          <a className="brand" href="#top" aria-label="Back to the top">
+          <a
+            className="brand"
+            href="#top"
+            aria-label="Nguyen Anh Phong — back to top"
+          >
             <span className="brand__mark" aria-hidden="true">
-              N
+              NAP
             </span>
             <span className="brand__copy">
-              NAP // EE
-              <small>signal-to-system</small>
+              Phong Nguyen
+              <small>EE Portfolio</small>
             </span>
           </a>
 
