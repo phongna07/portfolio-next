@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { projects } from "../data/portfolio";
 import Reveal from "./Reveal";
+import { ProjectSchematic } from "./TechIllustrations";
 
 function ProjectVisual({
   project,
@@ -20,6 +21,10 @@ function ProjectVisual({
           height={1580}
           sizes="(max-width: 760px) calc(100vw - 36px), 430px"
         />
+        <span className="project-row__image-scan" aria-hidden="true" />
+        <span className="project-row__image-status" aria-hidden="true">
+          LIVE // SENSOR LINK
+        </span>
       </div>
     );
   }
@@ -31,9 +36,7 @@ function ProjectVisual({
         <span>UNASSIGNED</span>
       </div>
       <div className="project-placeholder__field">
-        <span className="project-placeholder__node" />
-        <span className="project-placeholder__line" />
-        <span className="project-placeholder__node" />
+        <ProjectSchematic variant={project.illustration} />
       </div>
       <span className="project-placeholder__label">FUTURE BUILD</span>
     </div>

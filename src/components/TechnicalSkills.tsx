@@ -1,5 +1,6 @@
 import { technicalSkillGroups } from "../data/portfolio";
 import Reveal from "./Reveal";
+import { SkillSchematic } from "./TechIllustrations";
 
 export default function TechnicalSkills() {
   return (
@@ -22,6 +23,7 @@ export default function TechnicalSkills() {
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <h3 id={`${group.id}-title`}>{group.title}</h3>
                 </div>
+                <SkillSchematic variant={group.id} />
                 <ul aria-label={`${group.title} skills`}>
                   {group.skills.map((skill) => (
                     <li key={skill}>{skill}</li>

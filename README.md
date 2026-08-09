@@ -7,12 +7,14 @@ selected projects, grouped technical skills, and direct contact channels.
 ## Design direction
 
 The interface uses a dark engineering-lab visual system with a subtle grid,
-signal colors, technical labels, and compact editorial project rows. Motion is
-limited to a small one-shot fade and slide when content enters the viewport.
-Reduced-motion preferences are fully respected.
+signal colors, technical labels, compact editorial project rows, and code-native
+circuit illustrations. Bounded ambient motion carries current through selected
+hero and project traces, while one-shot line drawing and restrained hover states
+reinforce the signal-to-system theme. Reduced-motion preferences render the same
+visual system as a fully static composition.
 
 The site has no canvas effects, parallax, custom cursor, smooth-scroll library,
-or continuous animation loops.
+raster illustration dependency, or third-party animation runtime.
 
 ## Stack
 

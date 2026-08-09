@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import Reveal from "./Reveal";
+import { HeroCircuitVisual } from "./TechIllustrations";
 
 export default function AboutSection() {
   return (
@@ -26,16 +27,18 @@ export default function AboutSection() {
             </div>
           </div>
 
-          <figure className="about-section__portrait">
-            <Image
-              src="/avatar.jpg"
-              alt="Portrait of Nguyen Anh Phong"
-              width={1370}
-              height={1370}
-              priority
-              sizes="(max-width: 900px) min(100vw - 40px, 440px), 350px"
-            />
-          </figure>
+          <HeroCircuitVisual>
+            <figure className="about-section__portrait">
+              <Image
+                src="/avatar.jpg"
+                alt="Portrait of Nguyen Anh Phong"
+                width={1370}
+                height={1370}
+                priority
+                sizes="(max-width: 900px) min(78vw, 310px), 310px"
+              />
+            </figure>
+          </HeroCircuitVisual>
         </Reveal>
       </div>
     </section>

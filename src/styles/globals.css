@@ -195,6 +195,7 @@ svg {
   background: var(--panel-raised);
   color: var(--signal);
   box-shadow: inset 0 0 16px rgba(98, 246, 181, 0.05);
+  animation: chip-idle 4.8s ease-in-out infinite;
 }
 
 .brand__mark::before,
@@ -240,6 +241,7 @@ svg {
 }
 
 .site-nav a {
+  position: relative;
   display: inline-flex;
   min-height: 44px;
   align-items: center;
@@ -252,6 +254,19 @@ svg {
   transition: color 160ms ease;
 }
 
+.site-nav a::after {
+  position: absolute;
+  right: 14px;
+  bottom: 5px;
+  left: 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--signal), var(--cyan));
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .site-nav a span {
   margin-right: 5px;
   color: var(--copper);
@@ -260,6 +275,11 @@ svg {
 .site-nav a:hover,
 .site-nav a:focus-visible {
   color: var(--signal);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .site-header .button {
@@ -285,11 +305,24 @@ svg {
   letter-spacing: 0.05em;
   line-height: 1.1;
   text-transform: uppercase;
+  overflow: hidden;
   transition:
     transform 160ms ease,
     border-color 160ms ease,
     background-color 160ms ease,
     box-shadow 160ms ease;
+}
+
+.button::after {
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: -35%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  content: "";
+  pointer-events: none;
+  transform: translateX(-220%) skewX(-18deg);
 }
 
 .button::before {
@@ -307,6 +340,11 @@ svg {
 .button:focus-visible {
   border-color: var(--cyan);
   transform: translateY(-2px);
+}
+
+.button:hover::after,
+.button:focus-visible::after {
+  animation: control-sweep 620ms ease-out;
 }
 
 .button--small {
@@ -342,13 +380,17 @@ svg {
 
 /* About */
 .about-section {
+  position: relative;
   padding: clamp(72px, 9vw, 116px) 0;
+  overflow: clip;
   border-bottom: 1px solid var(--line);
   background: rgba(10, 16, 13, 0.38);
   scroll-margin-top: 70px;
 }
 
 .about-layout {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(270px, 0.65fr);
   gap: clamp(42px, 8vw, 112px);
@@ -384,18 +426,62 @@ svg {
   color: var(--text);
 }
 
+.hero-circuit {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 390px);
+  aspect-ratio: 1;
+  justify-self: end;
+}
+
+.hero-circuit::before {
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(98, 246, 181, 0.085), transparent 68%);
+  box-shadow: 0 0 80px rgba(90, 215, 255, 0.04);
+  content: "";
+}
+
+.hero-circuit__map,
+.hero-circuit__rings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero-circuit__map {
+  opacity: 0.72;
+}
+
+.hero-circuit__rings {
+  z-index: 2;
+}
+
+.hero-circuit__portrait-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 79.5%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
 .about-section__portrait {
   position: relative;
   display: block;
-  isolation: isolate;
-  width: min(100%, 310px);
-  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--panel);
-  justify-self: end;
 }
 
 .about-section__portrait::before,
@@ -426,6 +512,134 @@ svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.tech-trace,
+.tech-ring,
+.tech-tick,
+.hero-circuit__pins path {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.tech-trace--copper {
+  stroke: var(--copper);
+}
+
+.tech-node {
+  fill: var(--panel-raised);
+  stroke: var(--cyan);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.tech-node--signal {
+  fill: var(--signal);
+  stroke: var(--signal);
+}
+
+.tech-node--copper {
+  fill: var(--copper);
+  stroke: var(--copper);
+}
+
+.hero-circuit__map .tech-trace {
+  stroke-dasharray: 0.18 0.08;
+  animation: signal-travel 6s linear infinite;
+}
+
+.hero-circuit__map .tech-trace:nth-of-type(2n) {
+  animation-delay: -2.4s;
+}
+
+.hero-circuit__map .tech-node {
+  animation: node-pulse 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hero-circuit__map .tech-node:nth-of-type(3n) {
+  animation-delay: -1.4s;
+}
+
+.hero-circuit__rotor {
+  animation: diagnostic-rotate 18s linear infinite;
+  transform-origin: center;
+}
+
+.tech-ring {
+  opacity: 0.65;
+  stroke-dasharray: 2 5;
+}
+
+.tech-ring--inner {
+  opacity: 0.55;
+  stroke-dasharray: 0.4 7;
+}
+
+.tech-ring--signal {
+  stroke: var(--signal);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+
+.tech-ring--cyan {
+  stroke: var(--cyan);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+
+.tech-tick,
+.hero-circuit__pins path {
+  stroke: var(--copper);
+}
+
+.hero-circuit__current circle {
+  fill: var(--signal);
+  filter: drop-shadow(0 0 5px rgba(98, 246, 181, 0.8));
+  animation: node-pulse 2.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hero-circuit__current circle:nth-child(2) {
+  fill: var(--cyan);
+  animation-delay: -0.9s;
+}
+
+.hero-circuit__current circle:nth-child(3) {
+  animation-delay: -1.8s;
+}
+
+.hero-circuit__readout {
+  position: absolute;
+  z-index: 3;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  background: rgba(5, 8, 6, 0.88);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hero-circuit__readout--top {
+  top: 8%;
+  left: 4%;
+  color: var(--signal);
+}
+
+.hero-circuit__readout--bottom {
+  right: 2%;
+  bottom: 10%;
+  color: var(--cyan);
+}
+
+.reveal--visible .hero-circuit {
+  animation: circuit-power-on 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Project register */
@@ -482,9 +696,14 @@ svg {
   overflow: hidden;
   border: 1px solid var(--line-strong);
   background: var(--panel);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-row__image::after {
+  z-index: 2;
   position: absolute;
   inset: 8px;
   border: 1px solid rgba(231, 243, 236, 0.12);
@@ -497,6 +716,52 @@ svg {
   height: 100%;
   object-fit: cover;
   object-position: top left;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-row__image-scan {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  left: 0;
+  height: 18%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(98, 246, 181, 0.08),
+    rgba(90, 215, 255, 0.13),
+    transparent
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-120%);
+}
+
+.project-row__image-status {
+  position: absolute;
+  z-index: 3;
+  right: 14px;
+  bottom: 14px;
+  padding: 4px 7px;
+  border: 1px solid rgba(98, 246, 181, 0.52);
+  background: rgba(5, 8, 6, 0.84);
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.project-row__image-status::before {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 7px currentColor;
+  content: "";
+  animation: node-pulse 2.5s ease-in-out infinite;
 }
 
 .project-placeholder {
@@ -553,6 +818,8 @@ svg {
   flex: 1;
   align-items: center;
   justify-content: center;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .project-placeholder__line {
@@ -576,6 +843,138 @@ svg {
 .project-placeholder__label {
   align-self: flex-end;
   color: var(--cyan);
+}
+
+.project-schematic {
+  width: 100%;
+  height: 100%;
+  min-height: 118px;
+  color: var(--text-muted);
+  transition:
+    filter 240ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-schematic text {
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.schematic-grid,
+.schematic-die,
+.schematic-blocks rect,
+.schematic-blocks path,
+.schematic-pin-row path,
+.schematic-chip-pins path,
+.schematic-bus,
+.schematic-wave {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.schematic-grid {
+  opacity: 0.35;
+  stroke-dasharray: 2 5;
+}
+
+.schematic-blocks rect {
+  fill: rgba(16, 26, 22, 0.84);
+}
+
+.schematic-blocks--die rect:first-child,
+.schematic-blocks--die rect:nth-child(2) {
+  fill: rgba(98, 246, 181, 0.035);
+}
+
+.schematic-blocks text {
+  fill: var(--text-muted);
+  font-size: 6px;
+}
+
+.schematic-die {
+  stroke: var(--copper);
+  stroke-dasharray: 3 3;
+}
+
+.schematic-pin-row path,
+.schematic-chip-pins path {
+  stroke: var(--copper);
+}
+
+.project-schematic .tech-trace--active {
+  stroke: var(--signal);
+  stroke-dasharray: 0.11 0.89;
+  stroke-linecap: round;
+  animation: signal-travel 5.2s linear infinite;
+  filter: drop-shadow(0 0 3px rgba(98, 246, 181, 0.48));
+}
+
+.project-schematic--embedded-linux .tech-trace--active {
+  animation-duration: 4.6s;
+}
+
+.project-schematic--chip-architecture .tech-trace--active {
+  animation-duration: 5.8s;
+}
+
+.schematic-wave,
+.schematic-bus {
+  stroke: var(--cyan);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.reveal--visible .schematic-wave,
+.reveal--visible .schematic-bus {
+  animation: trace-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) 240ms forwards;
+}
+
+.schematic-scan {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(90, 215, 255, 0.5));
+  animation: schematic-scan 5.6s ease-in-out infinite;
+}
+
+.reveal--visible .schematic-blocks,
+.reveal--visible .schematic-die,
+.reveal--visible .schematic-chip-pins,
+.reveal--visible .schematic-pin-row {
+  animation: schematic-power 680ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.project-row:hover .project-row__image,
+.project-row:hover .project-placeholder,
+.project-row:focus-within .project-row__image,
+.project-row:focus-within .project-placeholder {
+  border-color: var(--cyan);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.22);
+  transform: translateY(-2px);
+}
+
+.project-row:hover .project-row__image img,
+.project-row:focus-within .project-row__image img {
+  transform: scale(1.018);
+}
+
+.project-row:hover .project-row__image-scan,
+.project-row:focus-within .project-row__image-scan {
+  animation: image-scan 1.25s ease-out;
+}
+
+.project-row:hover .project-schematic,
+.project-row:focus-within .project-schematic {
+  filter: drop-shadow(0 0 9px rgba(98, 246, 181, 0.1));
+  transform: scale(1.018);
 }
 
 .project-row__content {
@@ -707,6 +1106,22 @@ svg {
     rgba(98, 246, 181, 0.035),
     transparent 45%
   );
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.skill-panel::before {
+  position: absolute;
+  top: -1px;
+  left: -30%;
+  width: 30%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--signal), transparent);
+  content: "";
+  opacity: 0;
 }
 
 .skill-panel::after {
@@ -747,7 +1162,7 @@ svg {
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 8px;
-  margin: 22px 0 0;
+  margin: 15px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -759,11 +1174,80 @@ svg {
   color: var(--text-muted);
   font-size: 0.63rem;
   font-weight: 650;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
 }
 
 .skill-panel li::before {
   color: var(--signal);
   content: "> ";
+}
+
+.skill-panel:hover,
+.skill-panel:focus-within {
+  border-color: var(--line-strong);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.16);
+  transform: translateY(-3px);
+}
+
+.skill-panel:hover::before,
+.skill-panel:focus-within::before {
+  animation: panel-signal 1.1s ease-out;
+}
+
+.skill-panel li:hover {
+  border-color: rgba(98, 246, 181, 0.5);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.skill-schematic {
+  width: 100%;
+  height: 56px;
+  margin-top: 15px;
+  color: var(--text-muted);
+}
+
+.skill-schematic .tech-trace,
+.skill-schematic__block,
+.skill-schematic__pins,
+.skill-schematic__terminal,
+.skill-schematic__code,
+.skill-schematic__network {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.skill-schematic__block {
+  fill: rgba(16, 26, 22, 0.8);
+  stroke: var(--copper);
+}
+
+.skill-schematic__pins,
+.skill-schematic__code {
+  stroke: var(--copper);
+}
+
+.skill-schematic .tech-trace--active {
+  stroke: var(--signal);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.reveal--visible .skill-schematic .tech-trace--active {
+  animation: trace-draw 880ms cubic-bezier(0.22, 1, 0.36, 1) 260ms forwards;
+}
+
+.reveal--visible .skill-schematic__block,
+.reveal--visible .skill-schematic__terminal,
+.reveal--visible .skill-schematic__network {
+  animation: schematic-power 620ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 /* Contact */
@@ -776,9 +1260,46 @@ svg {
 
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(40px, 8vw, 110px);
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 0.32fr) auto;
+  gap: clamp(24px, 4vw, 56px);
   align-items: end;
+}
+
+.contact-circuit-rail {
+  position: relative;
+  display: flex;
+  min-width: 90px;
+  align-items: center;
+}
+
+.contact-circuit-rail__node {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--cyan);
+  background: var(--panel-raised);
+  box-shadow: inset 0 0 0 2px var(--panel);
+  transform: rotate(45deg);
+}
+
+.contact-circuit-rail__line {
+  width: 100%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--line-strong) 0 7px,
+    transparent 7px 12px
+  );
+}
+
+.contact-circuit-rail__signal {
+  position: absolute;
+  width: 26px;
+  height: 1px;
+  margin-left: 8px;
+  background: linear-gradient(90deg, transparent, var(--signal), transparent);
+  filter: drop-shadow(0 0 4px rgba(98, 246, 181, 0.7));
+  animation: contact-signal 4.2s ease-in-out infinite;
 }
 
 .contact-section__copy {
@@ -939,15 +1460,171 @@ svg {
   }
 }
 
+@keyframes chip-idle {
+  0%,
+  100% {
+    border-color: var(--line-strong);
+    box-shadow: inset 0 0 16px rgba(98, 246, 181, 0.05);
+  }
+  50% {
+    border-color: rgba(98, 246, 181, 0.58);
+    box-shadow:
+      inset 0 0 18px rgba(98, 246, 181, 0.11),
+      0 0 16px rgba(98, 246, 181, 0.04);
+  }
+}
+
+@keyframes control-sweep {
+  from {
+    transform: translateX(-220%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(820%) skewX(-18deg);
+  }
+}
+
+@keyframes diagnostic-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes signal-travel {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.86);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes circuit-power-on {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  48% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes trace-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes schematic-scan {
+  0%,
+  16% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  24% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.35;
+  }
+  82%,
+  100% {
+    opacity: 0;
+    transform: translateY(132px);
+  }
+}
+
+@keyframes schematic-power {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes image-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-120%);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(560%);
+  }
+}
+
+@keyframes panel-signal {
+  0% {
+    left: -30%;
+    opacity: 0;
+  }
+  20%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes contact-signal {
+  0%,
+  12% {
+    left: 0;
+    opacity: 0;
+  }
+  24%,
+  72% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    left: calc(100% - 26px);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 900px) {
   .about-layout,
   .contact-layout {
     grid-template-columns: 1fr;
   }
 
-  .about-section__portrait {
-    width: min(100%, 310px);
+  .hero-circuit {
+    width: min(100%, 370px);
     justify-self: center;
+  }
+
+  .about-section__portrait {
+    width: 100%;
+  }
+
+  .contact-circuit-rail {
+    width: min(100%, 440px);
+    min-width: 0;
+  }
+
+  .contact-circuit-rail__signal {
+    display: none;
   }
 
   .contact-section__links {
@@ -997,6 +1674,19 @@ svg {
 
   .about-section h1 {
     font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .hero-circuit {
+    width: min(100%, 350px);
+  }
+
+  .hero-circuit__map {
+    opacity: 0.55;
+  }
+
+  .hero-circuit__map .tech-trace:nth-of-type(n + 5),
+  .hero-circuit__map .tech-node:nth-of-type(n + 5) {
+    display: none;
   }
 
   .projects-section {
@@ -1101,6 +1791,10 @@ svg {
   .brand__copy {
     display: none;
   }
+
+  .hero-circuit__readout {
+    font-size: 0.42rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1122,7 +1816,51 @@ svg {
   }
 
   .button,
-  .contact-section__links > a:not(.button) {
+  .contact-section__links > a:not(.button),
+  .project-row__image,
+  .project-row__image img,
+  .project-placeholder,
+  .project-schematic,
+  .skill-panel,
+  .skill-panel li {
     transition: none;
+  }
+
+  .brand__mark,
+  .hero-circuit *,
+  .project-schematic *,
+  .skill-schematic *,
+  .project-row__image-status::before,
+  .contact-circuit-rail *,
+  .skill-panel::before,
+  .button::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .project-schematic .tech-trace--active,
+  .skill-schematic .tech-trace--active,
+  .schematic-wave,
+  .schematic-bus {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .schematic-scan,
+  .project-row__image-scan,
+  .contact-circuit-rail__signal {
+    display: none;
+  }
+
+  .hero-circuit,
+  .schematic-blocks,
+  .schematic-die,
+  .schematic-chip-pins,
+  .schematic-pin-row,
+  .skill-schematic__block,
+  .skill-schematic__terminal,
+  .skill-schematic__network {
+    opacity: 1;
+    transform: none;
   }
 }
