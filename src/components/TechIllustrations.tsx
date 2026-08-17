@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { ProjectIllustration, SkillIllustration } from "../data/portfolio";
+import type { SkillIllustration } from "../data/portfolio";
 
 type TraceProps = {
   d: string;
@@ -74,111 +74,6 @@ export function HeroCircuitVisual({ children }: { children: ReactNode }) {
         SYNC 0110
       </span>
     </div>
-  );
-}
-
-function FpgaSchematic() {
-  return (
-    <>
-      <g className="schematic-blocks">
-        <rect x="46" y="45" width="54" height="38" rx="2" />
-        <rect x="133" y="45" width="54" height="38" rx="2" />
-        <rect x="220" y="45" width="54" height="38" rx="2" />
-        <path d="M57 56h11v16h21V56M144 72h12V56h20v16M231 56h11v16h21V56" />
-      </g>
-      <Trace d="M18 64h28M100 64h33M187 64h33M274 64h28" className="tech-trace--active" />
-      <path className="schematic-wave" d="M28 122h35V99h26v23h38V99h26v23h38V99h26v23h70" pathLength="1" />
-      <g className="schematic-pin-row">
-        <path d="M55 34v11M69 34v11M83 34v11M142 34v11M156 34v11M170 34v11M229 34v11M243 34v11M257 34v11" />
-      </g>
-      <Node cx={18} cy={64} className="tech-node--signal" />
-      <Node cx={302} cy={64} />
-      <text x="18" y="149">CLK 100M</text>
-      <text x="240" y="149">ROUTE_OK</text>
-    </>
-  );
-}
-
-function LinuxSchematic() {
-  return (
-    <>
-      <g className="schematic-blocks schematic-blocks--system">
-        <rect x="116" y="38" width="88" height="54" rx="2" />
-        <rect x="22" y="46" width="57" height="38" rx="2" />
-        <rect x="241" y="46" width="57" height="38" rx="2" />
-        <rect x="36" y="115" width="64" height="28" rx="2" />
-        <rect x="128" y="115" width="64" height="28" rx="2" />
-        <rect x="220" y="115" width="64" height="28" rx="2" />
-        <text x="143" y="61">KERNEL</text>
-        <text x="144" y="78">CPU 0</text>
-        <text x="38" y="69">MEM</text>
-        <text x="254" y="69">I/O</text>
-        <text x="54" y="133">SPI</text>
-        <text x="146" y="133">UART</text>
-        <text x="238" y="133">NET</text>
-      </g>
-      <Trace d="M79 65h37M204 65h37M160 92v23M68 115V99h184v16" className="tech-trace--active" />
-      <path className="schematic-bus" d="M18 99h284" pathLength="1" />
-      <Node cx={18} cy={99} className="tech-node--signal" />
-      <Node cx={302} cy={99} />
-      <text x="18" y="158">SYSTEM BUS</text>
-      <text x="246" y="158">IRQ 07</text>
-    </>
-  );
-}
-
-function ChipSchematic() {
-  return (
-    <>
-      <rect className="schematic-die" x="75" y="23" width="170" height="126" rx="3" />
-      <g className="schematic-blocks schematic-blocks--die">
-        <rect x="91" y="39" width="59" height="42" rx="2" />
-        <rect x="170" y="39" width="59" height="42" rx="2" />
-        <rect x="91" y="101" width="138" height="31" rx="2" />
-        <text x="107" y="63">CORE 0</text>
-        <text x="186" y="63">CORE 1</text>
-        <text x="142" y="121">L2 CACHE</text>
-      </g>
-      <Trace d="M18 60h57M150 60h20M245 60h57M120 81v20M200 81v20" className="tech-trace--active" />
-      <Trace d="M18 118h57M245 118h57" className="tech-trace--copper" />
-      <g className="schematic-chip-pins">
-        <path d="M95 14v9M115 14v9M135 14v9M185 14v9M205 14v9M225 14v9M95 149v9M115 149v9M135 149v9M185 149v9M205 149v9M225 149v9" />
-      </g>
-      <Node cx={18} cy={60} className="tech-node--signal" />
-      <Node cx={302} cy={60} />
-      <text x="18" y="158">DIE 7NM</text>
-      <text x="251" y="158">2-CORE</text>
-    </>
-  );
-}
-
-function GenericSchematic() {
-  return (
-    <>
-      <rect className="schematic-die" x="122" y="48" width="76" height="64" rx="2" />
-      <Trace d="M18 80h104M198 80h104" className="tech-trace--active" />
-      <Node cx={18} cy={80} className="tech-node--signal" />
-      <Node cx={302} cy={80} />
-      <text x="18" y="149">AWAITING BUILD</text>
-    </>
-  );
-}
-
-export function ProjectSchematic({ variant }: { variant?: ProjectIllustration }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={`project-schematic project-schematic--${variant ?? "generic"}`}
-      focusable="false"
-      viewBox="0 0 320 172"
-    >
-      <path className="schematic-grid" d="M0 24h320M0 160h320M12 0v172M308 0v172" />
-      {variant === "fpga-logic" && <FpgaSchematic />}
-      {variant === "embedded-linux" && <LinuxSchematic />}
-      {variant === "chip-architecture" && <ChipSchematic />}
-      {!variant && <GenericSchematic />}
-      <path className="schematic-scan" d="M12 20h296" />
-    </svg>
   );
 }
 

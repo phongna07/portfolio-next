@@ -2,57 +2,21 @@ import Image from "next/image";
 
 import { projects } from "../data/portfolio";
 import Reveal from "./Reveal";
-import { ProjectSchematic } from "./TechIllustrations";
-
-function ProjectVisual({
-  project,
-  index,
-}: {
-  project: (typeof projects)[number];
-  index: number;
-}) {
-  if (project.image && project.imageAlt) {
-    return (
-      <div className="project-row__image">
-        <Image
-          src={project.image}
-          alt={project.imageAlt}
-          width={2386}
-          height={1580}
-          sizes="(max-width: 760px) calc(100vw - 36px), 430px"
-        />
-        <span className="project-row__image-scan" aria-hidden="true" />
-        <span className="project-row__image-status" aria-hidden="true">
-          {project.imageStatus}
-        </span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="project-placeholder" aria-hidden="true">
-      <div className="project-placeholder__header">
-        <span>SLOT_{String(index + 1).padStart(2, "0")}</span>
-        <span>UNASSIGNED</span>
-      </div>
-      <div className="project-placeholder__field">
-        <ProjectSchematic variant={project.illustration} />
-      </div>
-      <span className="project-placeholder__label">FUTURE BUILD</span>
-    </div>
-  );
-}
 
 export default function ProjectList() {
   return (
-    <section className="projects-section" id="projects" aria-labelledby="projects-title">
+    <section
+      className="projects-section"
+      id="projects"
+      aria-labelledby="projects-title"
+    >
       <div className="section-shell">
         <Reveal className="projects-heading">
-          <p className="section-label">Selected work / Current and upcoming</p>
+          <p className="section-label">Selected work / Completed projects</p>
           <h2 id="projects-title">Selected projects.</h2>
           <p>
-            Completed work and open project slots across embedded systems and
-            electrical engineering.
+            A focused selection of completed work across embedded systems,
+            software, and electrical engineering.
           </p>
         </Reveal>
 
@@ -60,20 +24,31 @@ export default function ProjectList() {
           {projects.map((project, index) => (
             <Reveal delay={(index % 2) * 50} key={project.id}>
               <article
-                className={`project-row project-row--${project.status}`}
+                className="project-row"
                 aria-labelledby={`${project.id}-title`}
               >
-                <ProjectVisual project={project} index={index} />
+                <div className="project-row__image">
+                  <Image
+                    src={project.image}
+                    alt={project.imageAlt}
+                    width={2386}
+                    height={1580}
+                    sizes="(max-width: 760px) calc(100vw - 36px), 430px"
+                  />
+                  <span className="project-row__image-scan" aria-hidden="true" />
+                  <span className="project-row__image-status" aria-hidden="true">
+                    {project.imageStatus}
+                  </span>
+                </div>
 
                 <div className="project-row__content">
-                  <div className="project-row__meta">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <span className={`project-status project-status--${project.status}`}>
-                      {project.status === "built" ? "Built" : "Project slot"}
+                  <div className="project-row__heading">
+                    <span className="project-row__meta" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
+                    <h3 id={`${project.id}-title`}>{project.title}</h3>
                   </div>
 
-                  <h3 id={`${project.id}-title`}>{project.title}</h3>
                   <p>{project.description}</p>
 
                   <ul className="tag-list" aria-label={`${project.title} topics`}>
@@ -82,22 +57,24 @@ export default function ProjectList() {
                     ))}
                   </ul>
 
-                  {project.links && (
-                    <div className="project-links">
-                      {project.links.map((link, linkIndex) => (
-                        <a
-                          className={linkIndex === 0 ? "button button--signal" : "button button--ghost"}
-                          href={link.href}
-                          key={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {link.label}
-                          <span aria-hidden="true">↗</span>
-                        </a>
-                      ))}
-                    </div>
-                  )}
+                  <div className="project-links">
+                    {project.links.map((link, linkIndex) => (
+                      <a
+                        className={
+                          linkIndex === 0
+                            ? "button button--signal"
+                            : "button button--ghost"
+                        }
+                        href={link.href}
+                        key={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.label}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </article>
             </Reveal>

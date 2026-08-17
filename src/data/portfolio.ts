@@ -3,22 +3,15 @@ export type ProjectLink = {
   href: string;
 };
 
-export type ProjectIllustration =
-  | "fpga-logic"
-  | "embedded-linux"
-  | "chip-architecture";
-
 export type PortfolioProject = {
   id: string;
   title: string;
-  status: "built" | "placeholder";
   description: string;
   technologies: string[];
-  image?: string;
-  imageAlt?: string;
-  imageStatus?: string;
-  illustration?: ProjectIllustration;
-  links?: ProjectLink[];
+  image: string;
+  imageAlt: string;
+  imageStatus: string;
+  links: ProjectLink[];
 };
 
 export type SkillIllustration = "embedded-hardware" | "languages" | "web-tooling";
@@ -57,7 +50,6 @@ export const projects: PortfolioProject[] = [
   {
     id: "forest-monitor",
     title: "Forest Monitor",
-    status: "built",
     description:
       "An environmental monitoring system that connects ESP32 sensors and FreeRTOS firmware to a real-time web dashboard.",
     technologies: ["ESP32", "FreeRTOS", "Firebase", "Next.js"],
@@ -76,7 +68,6 @@ export const projects: PortfolioProject[] = [
   {
     id: "snake-xenzia-stm32",
     title: "Snake Xenzia STM32",
-    status: "built",
     description:
       "A hardware recreation of the classic Snake Xenzia game for the STM32F411, with two-button steering, OLED graphics, buzzer feedback, and a persistent high score.",
     technologies: [
@@ -99,10 +90,9 @@ export const projects: PortfolioProject[] = [
   {
     id: "vnmint",
     title: "VnMint",
-    status: "built",
     description:
       "A customized Linux Mint 22.3 Cinnamon installation image that helps Vietnamese newcomers get started with preconfigured input, essential apps, and practical desktop defaults.",
-    technologies: ["Linux Mint", "Cinnamon", "ISO remastering", "Fcitx5"],
+    technologies: ["Linux Mint", "Bash Script", "ISO remastering", "Makefile"],
     image: "/projects/vnmint-preview.png",
     imageAlt:
       "VnMint desktop showing its dark Cinnamon interface, essential app shortcuts, and file manager",
@@ -119,12 +109,24 @@ export const projects: PortfolioProject[] = [
     ],
   },
   {
-    id: "chip-architecture",
-    title: "Chip Architecture",
-    status: "placeholder",
+    id: "vinuni-course-planner",
+    title: "VinUni Course Planner",
     description:
-      "Reserved for a future project focused on processor design, digital architecture, or semiconductor systems.",
-    technologies: ["Architecture", "Processors", "Logic design", "Semiconductors"],
-    illustration: "chip-architecture",
+      "An independent course-planning app for VinUniversity students with searchable sections, automatic timetable conflict detection, credit totals, and calendar export.",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
+    image: "/projects/vinuni-course-planner-preview.png",
+    imageAlt:
+      "VinUni Course Planner showing a weekly timetable and selected course details",
+    imageStatus: "READY // LIVE WEBSITE",
+    links: [
+      {
+        label: "Live site",
+        href: "https://vinuni-course-planner.vercel.app",
+      },
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/vinuni-course-planner",
+      },
+    ],
   },
 ];
