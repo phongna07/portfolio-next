@@ -12,7 +12,6 @@
   "dependencies": {
     "@next/bundle-analyzer": "^14.2.13",
     "next": "14.2.35",
-    "null-loader": "^4.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
