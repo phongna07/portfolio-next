@@ -97,13 +97,26 @@ export const projects: PortfolioProject[] = [
     ],
   },
   {
-    id: "embedded-linux",
-    title: "Embedded Linux Systems",
-    status: "placeholder",
+    id: "vnmint",
+    title: "VnMint",
+    status: "built",
     description:
-      "Reserved for future work with Linux, device drivers, and hardware-software integration.",
-    technologies: ["Linux", "Drivers", "C", "System integration"],
-    illustration: "embedded-linux",
+      "A customized Linux Mint 22.3 Cinnamon installation image that helps Vietnamese newcomers get started with preconfigured input, essential apps, and practical desktop defaults.",
+    technologies: ["Linux Mint", "Cinnamon", "ISO remastering", "Fcitx5"],
+    image: "/projects/vnmint-preview.png",
+    imageAlt:
+      "VnMint desktop showing its dark Cinnamon interface, essential app shortcuts, and file manager",
+    imageStatus: "READY // LIVE ISO",
+    links: [
+      {
+        label: "Download",
+        href: "https://sourceforge.net/projects/vnmint/",
+      },
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/vnmint",
+      },
+    ],
   },
   {
     id: "chip-architecture",
