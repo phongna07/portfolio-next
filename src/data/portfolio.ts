@@ -16,6 +16,7 @@ export type PortfolioProject = {
   technologies: string[];
   image?: string;
   imageAlt?: string;
+  imageStatus?: string;
   illustration?: ProjectIllustration;
   links?: ProjectLink[];
 };
@@ -63,6 +64,7 @@ export const projects: PortfolioProject[] = [
     image: "/projects/forest-monitor.png",
     imageAlt:
       "Forest Monitor dashboard showing environmental sensor readings and system status",
+    imageStatus: "LIVE // SENSOR LINK",
     links: [
       { label: "Live system", href: "https://forest-monitor.vercel.app/" },
       {
@@ -72,13 +74,27 @@ export const projects: PortfolioProject[] = [
     ],
   },
   {
-    id: "fpga-digital-logic",
-    title: "FPGA & Digital Logic",
-    status: "placeholder",
+    id: "snake-xenzia-stm32",
+    title: "Snake Xenzia STM32",
+    status: "built",
     description:
-      "Reserved for a future project exploring RTL design, timing analysis, and FPGA implementation.",
-    technologies: ["FPGA", "RTL", "Timing", "Digital logic"],
-    illustration: "fpga-logic",
+      "A hardware recreation of the classic Snake Xenzia game for the STM32F411, with two-button steering, OLED graphics, buzzer feedback, and a persistent high score.",
+    technologies: [
+      "STM32F411",
+      "Interrupt-driven input",
+      "I²C",
+      "PWM",
+    ],
+    image: "/projects/snake-xenzia.jpg",
+    imageAlt:
+      "Snake Xenzia running on an STM32F411 breadboard prototype with an OLED display and buttons",
+    imageStatus: "RUNNING // STM32",
+    links: [
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/snake-xenzia-stm32",
+      },
+    ],
   },
   {
     id: "embedded-linux",

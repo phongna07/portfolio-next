@@ -23,7 +23,7 @@ function ProjectVisual({
         />
         <span className="project-row__image-scan" aria-hidden="true" />
         <span className="project-row__image-status" aria-hidden="true">
-          LIVE // SENSOR LINK
+          {project.imageStatus}
         </span>
       </div>
     );
