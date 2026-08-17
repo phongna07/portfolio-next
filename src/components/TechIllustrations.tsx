@@ -71,7 +71,7 @@ export function HeroCircuitVisual({ children }: { children: ReactNode }) {
         aria-hidden="true"
         className="hero-circuit__readout hero-circuit__readout--bottom"
       >
-        SYNC 0110
+        GND 0V
       </span>
     </div>
   );
