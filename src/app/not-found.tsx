@@ -7,7 +7,7 @@ export default function NotFound() {
         <p className="section-label">SYSTEM / 404 / OPEN CIRCUIT</p>
         <h1>That route is not connected.</h1>
         <p>The requested signal path does not resolve to a resource.</p>
-        <Link href="/" className="button button--signal">
+        <Link href="/" className="button button--primary">
           Return to system
         </Link>
       </div>

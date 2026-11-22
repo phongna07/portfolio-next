@@ -6,15 +6,24 @@ selected projects, grouped technical skills, and direct contact channels.
 
 ## Design direction
 
-The interface uses a dark engineering-lab visual system with a subtle grid,
-signal colors, technical labels, compact editorial project rows, and code-native
-circuit illustrations. Bounded ambient motion carries current through selected
-hero and project traces, while one-shot line drawing and restrained hover states
-reinforce the signal-to-system theme. Reduced-motion preferences render the same
-visual system as a fully static composition.
+The site reads like an engineer's component datasheet. It uses warm instrument
+black, paper-white type (Inter Tight, Instrument Serif italics, and JetBrains
+Mono labels), and oscilloscope channel colours: CH1 yellow, CH2 cyan, and CH3
+magenta, with a copper accent.
 
-The site has no canvas effects, parallax, custom cursor, smooth-scroll library,
-raster illustration dependency, or third-party animation runtime.
+- **Hero:** a live canvas oscilloscope. CH1 is an analog waveform that follows
+  the cursor (hardware), and CH2 is a UART signal with protocol-decode bubbles
+  that spells out the owner's name (software).
+- **Overview:** laid out as datasheet sections: general description, features,
+  specifications, and signal path.
+- **Projects:** shown as "Figures" in large cards with a cursor spotlight.
+- **Skills:** drawn as the pin configuration of a DIP-16 "NAP-07" chip, with
+  pin groups that highlight together.
+- **Contact:** a large display heading, an email address you can copy, and live
+  Hanoi time.
+
+Motion pauses when it is off-screen. With reduced-motion preferences, every
+animation stops and the scope renders a static frame.
 
 ## Stack
 

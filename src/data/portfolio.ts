@@ -11,6 +11,7 @@ export type PortfolioProject = {
   image: string;
   imageAlt: string;
   imageStatus: string;
+  domain: string;
   links: ProjectLink[];
 };
 
@@ -57,6 +58,7 @@ export const projects: PortfolioProject[] = [
     imageAlt:
       "Forest Monitor dashboard showing environmental sensor readings and system status",
     imageStatus: "LIVE // SENSOR LINK",
+    domain: "IoT · Embedded + Web",
     links: [
       { label: "Live system", href: "https://forest-monitor.vercel.app/" },
       {
@@ -80,6 +82,7 @@ export const projects: PortfolioProject[] = [
     imageAlt:
       "Snake Xenzia running on an STM32F411 breadboard prototype with an OLED display and buttons",
     imageStatus: "RUNNING // STM32",
+    domain: "Firmware · Embedded",
     links: [
       {
         label: "Source code",
@@ -97,6 +100,7 @@ export const projects: PortfolioProject[] = [
     imageAlt:
       "VnMint desktop showing its dark Cinnamon interface, essential app shortcuts, and file manager",
     imageStatus: "READY // LIVE ISO",
+    domain: "Linux · Systems",
     links: [
       {
         label: "Download",
@@ -118,6 +122,7 @@ export const projects: PortfolioProject[] = [
     imageAlt:
       "VinUni Course Planner showing a weekly timetable and selected course details",
     imageStatus: "READY // LIVE WEBSITE",
+    domain: "Web · Software",
     links: [
       {
         label: "Live site",

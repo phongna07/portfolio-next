@@ -1,44 +1,101 @@
-import Image from "next/image";
-
 import Reveal from "./Reveal";
-import { HeroCircuitVisual } from "./TechIllustrations";
+import SectionHeading from "./SectionHeading";
+
+const focusAreas = [
+  "Embedded systems",
+  "FPGA",
+  "Digital hardware",
+  "Low-level systems",
+  "Practical system integration",
+];
+
+const signalPath = [
+  { stage: "IN", label: "High school", detail: "Started exploring programming" },
+  { stage: "01", label: "Web development", detail: "Websites and reusable React tooling" },
+  { stage: "02", label: "Embedded systems", detail: "Firmware, sensors, microcontrollers" },
+  { stage: "OUT", label: "Hardware ↔ software", detail: "Where I'm focused now" },
+];
+
+const specs = [
+  ["Discipline", "Electrical Engineering"],
+  ["Location", "Hanoi, Vietnam · GMT+7"],
+  ["Origin", "Web development, high school"],
+  ["Focus", "The hardware / software boundary"],
+];
 
 export default function AboutSection() {
   return (
-    <section className="about-section" id="about" aria-labelledby="about-title">
+    <section className="section about" id="about" aria-labelledby="about-title">
       <div className="section-shell">
-        <Reveal className="about-layout">
-          <div className="about-section__copy">
-            <p className="section-label">About me / Hanoi, VN</p>
-            <h1 id="about-title">Phong Nguyen</h1>
-            <div className="about-section__body">
-              <p>
-                My name is Nguyen Anh Phong, an Electrical Engineering student
-                based in Hanoi, Vietnam. I began exploring programming in high
-                school through web development and have since built projects
-                ranging from websites and reusable React tooling to embedded
-                systems.
-              </p>
-              <p>
-                I&apos;m currently focused on the boundary between hardware and
-                software, including embedded systems, FPGA, digital hardware,
-                low-level systems, and practical system integration.
-              </p>
-            </div>
-          </div>
+        <SectionHeading
+          index="01"
+          kicker="Overview"
+          id="about-title"
+          title={
+            <>
+              From web pages <em>to</em> silicon.
+            </>
+          }
+        />
 
-          <HeroCircuitVisual>
-            <figure className="about-section__portrait">
-              <Image
-                src="/avatar.jpg"
-                alt="Portrait of Nguyen Anh Phong"
-                width={1370}
-                height={1370}
-                priority
-                sizes="(max-width: 900px) 79vw, 310px"
-              />
-            </figure>
-          </HeroCircuitVisual>
+        <div className="about__grid">
+          <Reveal className="about__description">
+            <h3 className="eyebrow">1.1 General description</h3>
+            <p className="about__lead">
+              My name is Nguyen Anh Phong, an Electrical Engineering student
+              based in Hanoi, Vietnam.
+            </p>
+            <p>
+              I began exploring programming in high school through web
+              development and have since built projects ranging from websites
+              and reusable React tooling to embedded systems.
+            </p>
+            <p>
+              I&apos;m currently focused on the boundary between hardware and
+              software, including embedded systems, FPGA, digital hardware,
+              low-level systems, and practical system integration.
+            </p>
+          </Reveal>
+
+          <Reveal className="about__side" delay={80}>
+            <div className="spec-block">
+              <h3 className="eyebrow">1.2 Features</h3>
+              <ul className="feature-list">
+                {focusAreas.map((area) => (
+                  <li key={area}>{area}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="spec-block">
+              <h3 className="eyebrow">1.3 Specifications</h3>
+              <table className="spec-table">
+                <tbody>
+                  {specs.map(([key, value]) => (
+                    <tr key={key}>
+                      <th scope="row">{key}</th>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal className="signal-path" delay={60}>
+          <h3 className="eyebrow">1.4 Signal path</h3>
+          <ol>
+            {signalPath.map((step) => (
+              <li key={step.label}>
+                <span className="signal-path__node" aria-hidden="true">
+                  {step.stage}
+                </span>
+                <strong>{step.label}</strong>
+                <span>{step.detail}</span>
+              </li>
+            ))}
+          </ol>
         </Reveal>
       </div>
     </section>

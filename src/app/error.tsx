@@ -37,7 +37,7 @@ export default function Error({
         <div className="state-card__actions">
           <button
             onClick={() => reset()}
-            className="button button--signal"
+            className="button button--primary"
           >
             Retry signal
           </button>
