@@ -10,12 +10,16 @@ export type PortfolioProject = {
   technologies: string[];
   image: string;
   imageAlt: string;
+  /** Optional muted looping clip; `image` doubles as its poster frame. */
+  video?: string;
+  /** CSS object-position for the preview (defaults to "top center"). */
+  imagePosition?: string;
   imageStatus: string;
   domain: string;
   links: ProjectLink[];
 };
 
-export type SkillIllustration = "embedded-hardware" | "languages" | "web-tooling";
+export type SkillIllustration = "embedded-hardware" | "languages" | "software-tooling";
 
 export type TechnicalSkillGroup = {
   id: SkillIllustration;
@@ -33,37 +37,48 @@ export const technicalSkillGroups: TechnicalSkillGroup[] = [
   {
     id: "embedded-hardware",
     title: "Embedded & hardware",
-    skills: ["ESP32", "FreeRTOS", "FPGA", "RTL", "Digital Logic", "Embedded Linux"],
+    skills: ["STM32", "ESP32", "FreeRTOS", "FPGA", "RTL", "KiCad PCB", "Embedded Linux"],
   },
   {
     id: "languages",
     title: "Languages",
-    skills: ["C", "C++", "Python", "JavaScript", "TypeScript"],
+    skills: ["C", "C++", "Python", "Bash", "JavaScript", "TypeScript"],
   },
   {
-    id: "web-tooling",
-    title: "Web & tooling",
-    skills: ["React", "Next.js", "Firebase", "Git", "Docker"],
+    id: "software-tooling",
+    title: "Software & tooling",
+    skills: ["ROS 2", "Gazebo", "Docker", "Git", "React", "Next.js", "Firebase"],
   },
 ];
 
+/** Intrinsic preview dimensions, used to reserve layout space. */
+export const projectImageSizes: Record<string, [number, number]> = {
+  "uav-simulation-3d": [1168, 772],
+  "snake-xenzia-stm32": [909, 682],
+  vnmint: [1267, 798],
+  "audio-amplifier-pcb-kicad": [2285, 1428],
+  "forest-monitor": [2386, 1580],
+  "vinuni-course-planner": [2425, 1562],
+  "3dr-solo-simulation": [1600, 900],
+};
+
 export const projects: PortfolioProject[] = [
   {
-    id: "forest-monitor",
-    title: "Forest Monitor",
+    id: "uav-simulation-3d",
+    title: "UAV Simulation 3D",
     description:
-      "An environmental monitoring system that connects ESP32 sensors and FreeRTOS firmware to a real-time web dashboard.",
-    technologies: ["ESP32", "FreeRTOS", "Firebase", "Next.js"],
-    image: "/projects/forest-monitor.png",
+      "A 3D physics adapter for a multi-UAV MPC target-tracking planner. Five 6-DoF quadrotors fly a city map in RotorPy, with continuous collision checking, side-by-side benchmarks of five controllers, paper metrics, and rendered replay videos.",
+    technologies: ["Python", "RotorPy", "Model predictive control", "CasADi", "pytest"],
+    image: "/projects/uav-simulation-3d-poster.jpg",
     imageAlt:
-      "Forest Monitor dashboard showing environmental sensor readings and system status",
-    imageStatus: "LIVE // SENSOR LINK",
-    domain: "IoT · Embedded + Web",
+      "Five quadrotors weaving between city buildings while tracking a moving target, with their flight trails and camera footprints",
+    video: "/projects/uav-simulation-3d-preview.mp4",
+    imageStatus: "REPLAY // SCEN1 · 5×",
+    domain: "Robotics · Simulation",
     links: [
-      { label: "Live system", href: "https://forest-monitor.vercel.app/" },
       {
         label: "Source code",
-        href: "https://github.com/phongna07/forest-monitor",
+        href: "https://github.com/phongna07/uav-simulation-3d",
       },
     ],
   },
@@ -113,6 +128,48 @@ export const projects: PortfolioProject[] = [
     ],
   },
   {
+    id: "audio-amplifier-pcb-kicad",
+    title: "Audio Amplifier PCB",
+    description:
+      "A mono LM386 amplifier board designed in KiCad for a VinUniversity circuits lab. It sums a 3.5 mm stereo input to mono, sets the gain to about 50, filters the supply with an RC network, and drives a 4 Ω / 3 W speaker.",
+    technologies: ["KiCad 10", "LM386", "Schematic capture", "PCB layout"],
+    image: "/projects/audio-amplifier-pcb.jpg",
+    imageAlt:
+      "3D render of the assembled LM386 amplifier PCB with capacitors, a trimmer potentiometer, and a 3.5 mm audio jack",
+    imagePosition: "center",
+    imageStatus: "RENDER // KICAD 3D",
+    domain: "Hardware · PCB design",
+    links: [
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/audio-amplifier-pcb-kicad",
+      },
+    ],
+  },
+];
+
+/** Smaller projects shown in the compact "Additional projects" grid. */
+export const additionalProjects: PortfolioProject[] = [
+  {
+    id: "forest-monitor",
+    title: "Forest Monitor",
+    description:
+      "An environmental monitoring system that connects ESP32 sensors and FreeRTOS firmware to a real-time web dashboard.",
+    technologies: ["ESP32", "FreeRTOS", "Firebase", "Next.js"],
+    image: "/projects/forest-monitor.png",
+    imageAlt:
+      "Forest Monitor dashboard showing environmental sensor readings and system status",
+    imageStatus: "LIVE // SENSOR LINK",
+    domain: "IoT · Embedded + Web",
+    links: [
+      { label: "Live system", href: "https://forest-monitor.vercel.app/" },
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/forest-monitor",
+      },
+    ],
+  },
+  {
     id: "vinuni-course-planner",
     title: "VinUni Course Planner",
     description:
@@ -131,6 +188,25 @@ export const projects: PortfolioProject[] = [
       {
         label: "Source code",
         href: "https://github.com/phongna07/vinuni-course-planner",
+      },
+    ],
+  },
+  {
+    id: "3dr-solo-simulation",
+    title: "3DR Solo Simulation",
+    description:
+      "Teams of UAVs track a moving target between city blocks with MPC, LiDAR mapping, and onboard cameras, using ROS 2 Jazzy and Gazebo Harmonic packaged in Docker.",
+    technologies: ["ROS 2", "Gazebo", "Docker", "Python", "C++"],
+    image: "/projects/3dr-solo-simulation.jpg",
+    imageAlt:
+      "Gazebo mission view of five UAVs over city blocks, with an occupancy map, drone state panel, and five onboard camera feeds",
+    imagePosition: "center",
+    imageStatus: "SIM // GAZEBO",
+    domain: "Robotics · Simulation",
+    links: [
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/3dr-solo-simulation",
       },
     ],
   },

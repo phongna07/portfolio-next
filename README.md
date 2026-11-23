@@ -16,8 +16,11 @@ magenta, with a copper accent.
   that spells out the owner's name (software).
 - **Overview:** laid out as datasheet sections: general description, features,
   specifications, and signal path.
-- **Projects:** shown as "Figures" in large cards with a cursor spotlight.
-- **Skills:** drawn as the pin configuration of a DIP-16 "NAP-07" chip, with
+- **Projects:** shown as "Figures" in large cards with a cursor spotlight; a
+  preview can be a muted looping clip that plays only on screen.
+- **Additional projects:** an "Appendix" of compact cards, each with its own
+  channel-coloured trace on hover.
+- **Skills:** drawn as the pin configuration of a DIP-20 "NAP-07" chip, with
   pin groups that highlight together.
 - **Contact:** a large display heading, an email address you can copy, and live
   Hanoi time.

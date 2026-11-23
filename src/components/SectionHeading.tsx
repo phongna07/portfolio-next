@@ -8,11 +8,13 @@ type SectionHeadingProps = {
   id: string;
   title: ReactNode;
   aside?: ReactNode;
+  /** Smaller display size for secondary sections. */
+  compact?: boolean;
 };
 
-export default function SectionHeading({ index, kicker, id, title, aside }: SectionHeadingProps) {
+export default function SectionHeading({ index, kicker, id, title, aside, compact }: SectionHeadingProps) {
   return (
-    <Reveal className="section-heading">
+    <Reveal className={`section-heading${compact ? " section-heading--compact" : ""}`}>
       <p className="section-heading__kicker">
         <span>§ {index}</span>
         {kicker}

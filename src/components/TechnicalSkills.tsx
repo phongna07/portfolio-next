@@ -20,7 +20,7 @@ const rightPins = pins.slice(half).reverse();
 const channel: Record<SkillIllustration, string> = {
   "embedded-hardware": "ch1",
   languages: "ch2",
-  "web-tooling": "ch3",
+  "software-tooling": "ch3",
 };
 
 export default function TechnicalSkills() {
@@ -58,13 +58,13 @@ export default function TechnicalSkills() {
               My technical <em>skills.</em>
             </>
           }
-          aside="A balanced toolkit spanning embedded hardware, programming, and the software used to turn system data into useful interfaces."
+          aside="A balanced toolkit spanning embedded hardware and PCB design, programming, robotics simulation, and the software that turns system data into useful interfaces."
         />
 
         <div className="skills__grid">
           <Reveal className="pinout-wrap">
             <div className="pinout" data-active={active ?? undefined}>
-              <ul className="pinout__side pinout__side--left" aria-label="Pins 1 to 8">
+              <ul className="pinout__side pinout__side--left" aria-label={`Pins 1 to ${half}`}>
                 {leftPins.map((pin) => renderPin(pin, "left"))}
               </ul>
 
@@ -73,10 +73,10 @@ export default function TechnicalSkills() {
                 <span className="pinout__dot" />
                 <span className="pinout__part">NAP-07</span>
                 <span className="pinout__desc">HW/SW Interface</span>
-                <span className="pinout__pkg">DIP-16 · Hanoi VN</span>
+                <span className="pinout__pkg">DIP-{pins.length} · Hanoi VN</span>
               </div>
 
-              <ul className="pinout__side pinout__side--right" aria-label="Pins 9 to 16">
+              <ul className="pinout__side pinout__side--right" aria-label={`Pins ${half + 1} to ${pins.length}`}>
                 {rightPins.map((pin) => renderPin(pin, "right"))}
               </ul>
             </div>

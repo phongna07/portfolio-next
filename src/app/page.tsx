@@ -1,4 +1,5 @@
 import AboutSection from "../components/AboutSection";
+import AdditionalProjects from "../components/AdditionalProjects";
 import ContactSection from "../components/ContactSection";
 import HeroSection from "../components/HeroSection";
 import ProjectList from "../components/ProjectList";
@@ -18,6 +19,7 @@ export default function HomePage() {
         <SignalBus />
         <AboutSection />
         <ProjectList />
+        <AdditionalProjects />
         <TechnicalSkills />
         <ContactSection />
       </main>

@@ -11,6 +11,11 @@ const sections = [
   { id: "contact", label: "Contact" },
 ];
 
+// Sub-sections that should keep their parent's nav item highlighted.
+const navParent: Record<string, string> = {
+  "additional-projects": "projects",
+};
+
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -24,12 +29,12 @@ export default function SiteHeader() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
+          if (entry.isIntersecting) setActive(navParent[entry.target.id] ?? entry.target.id);
         });
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
-    sections.forEach(({ id }) => {
+    [...sections.map(({ id }) => id), ...Object.keys(navParent)].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });

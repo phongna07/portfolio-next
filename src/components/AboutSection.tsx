@@ -4,7 +4,8 @@ import SectionHeading from "./SectionHeading";
 const focusAreas = [
   "Embedded systems",
   "FPGA",
-  "Digital hardware",
+  "Digital hardware & PCB design",
+  "Robotics & UAV simulation",
   "Low-level systems",
   "Practical system integration",
 ];
@@ -12,7 +13,7 @@ const focusAreas = [
 const signalPath = [
   { stage: "IN", label: "High school", detail: "Started exploring programming" },
   { stage: "01", label: "Web development", detail: "Websites and reusable React tooling" },
-  { stage: "02", label: "Embedded systems", detail: "Firmware, sensors, microcontrollers" },
+  { stage: "02", label: "Embedded & hardware", detail: "Firmware, microcontrollers, PCB design" },
   { stage: "OUT", label: "Hardware ↔ software", detail: "Where I'm focused now" },
 ];
 
@@ -48,7 +49,8 @@ export default function AboutSection() {
             <p>
               I began exploring programming in high school through web
               development and have since built projects ranging from websites
-              and reusable React tooling to embedded systems.
+              and reusable React tooling to embedded firmware, PCB design, and
+              multi-UAV simulation.
             </p>
             <p>
               I&apos;m currently focused on the boundary between hardware and

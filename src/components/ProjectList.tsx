@@ -1,16 +1,10 @@
 import Image from "next/image";
 
-import { projects } from "../data/portfolio";
+import { projectImageSizes, projects } from "../data/portfolio";
+import ProjectVideo from "./ProjectVideo";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import Spotlight from "./Spotlight";
-
-const imageSizes: Record<string, [number, number]> = {
-  "forest-monitor": [2386, 1580],
-  "snake-xenzia-stm32": [909, 682],
-  vnmint: [1267, 798],
-  "vinuni-course-planner": [2425, 1562],
-};
 
 export default function ProjectList() {
   return (
@@ -25,12 +19,12 @@ export default function ProjectList() {
               Selected <em>projects.</em>
             </>
           }
-          aside="A focused selection of completed work across embedded systems, software, and electrical engineering."
+          aside="A focused selection of completed work across robotics simulation, embedded firmware, Linux systems, and circuit design."
         />
 
         <div className="project-list">
           {projects.map((project, index) => {
-            const [w, h] = imageSizes[project.id] ?? [1600, 1000];
+            const [w, h] = projectImageSizes[project.id] ?? [1600, 1000];
             const number = String(index + 1).padStart(2, "0");
             return (
               <Reveal key={project.id} delay={40}>
@@ -38,13 +32,29 @@ export default function ProjectList() {
                   <article aria-labelledby={`${project.id}-title`} className="project__inner">
                     <div className="project__media">
                       <div className="project__screen">
-                        <Image
-                          src={project.image}
-                          alt={project.imageAlt}
-                          width={w}
-                          height={h}
-                          sizes="(max-width: 900px) calc(100vw - 32px), 640px"
-                        />
+                        {project.video ? (
+                          <ProjectVideo
+                            src={project.video}
+                            poster={project.image}
+                            label={project.imageAlt}
+                            width={w}
+                            height={h}
+                            objectPosition={project.imagePosition}
+                          />
+                        ) : (
+                          <Image
+                            src={project.image}
+                            alt={project.imageAlt}
+                            width={w}
+                            height={h}
+                            sizes="(max-width: 900px) calc(100vw - 32px), 640px"
+                            style={
+                              project.imagePosition
+                                ? { objectPosition: project.imagePosition }
+                                : undefined
+                            }
+                          />
+                        )}
                         <span className="project__scan" aria-hidden="true" />
                       </div>
                       <span className="project__status" aria-hidden="true">
