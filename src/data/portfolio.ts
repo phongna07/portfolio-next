@@ -42,12 +42,21 @@ export const technicalSkillGroups: TechnicalSkillGroup[] = [
   {
     id: "languages",
     title: "Languages",
-    skills: ["C", "C++", "Python", "Bash", "JavaScript", "TypeScript"],
+    skills: ["C", "C++", "Python", "Bash", "JavaScript", "TypeScript", "SQL"],
   },
   {
     id: "software-tooling",
     title: "Software & tooling",
-    skills: ["ROS 2", "Gazebo", "Docker", "Git", "React", "Next.js", "Firebase"],
+    skills: [
+      "ROS 2",
+      "Gazebo",
+      "Docker",
+      "Git",
+      "React",
+      "Next.js",
+      "PostgreSQL",
+      "Firebase",
+    ],
   },
 ];
 
@@ -60,6 +69,8 @@ export const projectImageSizes: Record<string, [number, number]> = {
   "forest-monitor": [2386, 1580],
   "vinuni-course-planner": [2425, 1562],
   "3dr-solo-simulation": [1600, 900],
+  "masc-hypernova": [1220, 809],
+  "audio-visualizer": [640, 360],
 };
 
 export const projects: PortfolioProject[] = [
@@ -151,6 +162,45 @@ export const projects: PortfolioProject[] = [
 /** Smaller projects shown in the compact "Additional projects" grid. */
 export const additionalProjects: PortfolioProject[] = [
   {
+    id: "3dr-solo-simulation",
+    title: "3DR Solo Simulation",
+    description:
+      "Teams of UAVs track a moving target between city blocks with MPC, LiDAR mapping, and onboard cameras, using ROS 2 Jazzy and Gazebo Harmonic packaged in Docker.",
+    technologies: ["ROS 2", "Gazebo", "Docker", "Python", "C++"],
+    image: "/projects/3dr-solo-simulation.jpg",
+    imageAlt:
+      "Gazebo mission view of five UAVs over city blocks, with an occupancy map, drone state panel, and five onboard camera feeds",
+    imagePosition: "center",
+    imageStatus: "SIM // GAZEBO",
+    domain: "Robotics · Simulation",
+    links: [
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/3dr-solo-simulation",
+      },
+    ],
+  },
+  {
+    id: "masc-hypernova",
+    title: "MASC 2026 · Hypernova",
+    description:
+      "The platform behind Marketing All-Star Challenge 2026: an animated bilingual landing page, team registration and submissions, organizer tools, and ticketing with QR check-in.",
+    technologies: ["Next.js", "tRPC", "PostgreSQL", "Drizzle", "GSAP"],
+    image: "/projects/masc-hypernova.png",
+    imageAlt:
+      "Marketing All-Star Challenge 2026 landing page with a starry purple hero and the glowing Hypernova emblem",
+    imagePosition: "center",
+    imageStatus: "LIVE // EVENT PLATFORM",
+    domain: "Web · Full-stack",
+    links: [
+      { label: "Live site", href: "https://marketingallstarchallenge.com" },
+      {
+        label: "Source code",
+        href: "https://github.com/phongna07/masc-landing",
+      },
+    ],
+  },
+  {
     id: "forest-monitor",
     title: "Forest Monitor",
     description:
@@ -192,21 +242,22 @@ export const additionalProjects: PortfolioProject[] = [
     ],
   },
   {
-    id: "3dr-solo-simulation",
-    title: "3DR Solo Simulation",
+    id: "audio-visualizer",
+    title: "ESP32 Audio Visualizer",
     description:
-      "Teams of UAVs track a moving target between city blocks with MPC, LiDAR mapping, and onboard cameras, using ROS 2 Jazzy and Gazebo Harmonic packaged in Docker.",
-    technologies: ["ROS 2", "Gazebo", "Docker", "Python", "C++"],
-    image: "/projects/3dr-solo-simulation.jpg",
+      "A real-time spectrum analyzer that captures audio from an INMP441 microphone over I²S, runs an FFT on the ESP32, and draws a responsive spectrum on a 128×64 OLED, with capture and rendering split across both cores.",
+    technologies: ["ESP32", "FreeRTOS", "I²S", "FFT", "PlatformIO"],
+    image: "/projects/audio-visualizer-poster.jpg",
     imageAlt:
-      "Gazebo mission view of five UAVs over city blocks, with an occupancy map, drone state panel, and five onboard camera feeds",
+      "ESP32 breadboard build with an INMP441 microphone and an OLED showing a live audio spectrum",
+    video: "/projects/audio-visualizer-preview.mp4",
     imagePosition: "center",
-    imageStatus: "SIM // GAZEBO",
-    domain: "Robotics · Simulation",
+    imageStatus: "RUNNING // 23 FPS",
+    domain: "Firmware · DSP",
     links: [
       {
         label: "Source code",
-        href: "https://github.com/phongna07/3dr-solo-simulation",
+        href: "https://github.com/phongna07/audio-visualizer",
       },
     ],
   },

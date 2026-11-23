@@ -12,7 +12,7 @@ const focusAreas = [
 
 const signalPath = [
   { stage: "IN", label: "High school", detail: "Started exploring programming" },
-  { stage: "01", label: "Web development", detail: "Websites and reusable React tooling" },
+  { stage: "01", label: "Web development", detail: "Websites, React tooling, full-stack apps" },
   { stage: "02", label: "Embedded & hardware", detail: "Firmware, microcontrollers, PCB design" },
   { stage: "OUT", label: "Hardware ↔ software", detail: "Where I'm focused now" },
 ];
@@ -48,9 +48,9 @@ export default function AboutSection() {
             </p>
             <p>
               I began exploring programming in high school through web
-              development and have since built projects ranging from websites
-              and reusable React tooling to embedded firmware, PCB design, and
-              multi-UAV simulation.
+              development and have since built projects ranging from websites,
+              reusable React tooling, and a full-stack event platform to
+              embedded firmware, PCB design, and multi-UAV simulation.
             </p>
             <p>
               I&apos;m currently focused on the boundary between hardware and
